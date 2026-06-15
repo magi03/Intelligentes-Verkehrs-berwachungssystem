@@ -1,0 +1,36 @@
+.video-placeholder { 
+    width: 100%; 
+    aspect-ratio: 1 / 1; /* Zwingt die Box in ein perfektes Quadrat */
+    background-color: #000; 
+    overflow: hidden; 
+    position: relative; 
+    border-radius: 4px; 
+}
+.ampel-indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 10px currentColor;
+}
+
+/* Немски цветове за светофара */
+.grün { background-color: #2ecc71; color: #2ecc71; }
+.gelb { background-color: #f1c40f; color: #f1c40f; }
+.rot { background-color: #e74c3c; color: #e74c3c; }
+
+.log-container {
+    height: 150px;
+    overflow-y: auto;
+    font-size: 0.85rem;
+    padding: 10px;
+    border: 1px solid #333;
+}
+
+.card {
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: scale(1.01);
+}

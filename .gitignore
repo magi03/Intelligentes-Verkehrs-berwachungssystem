@@ -1,0 +1,26 @@
+# Python Caches
+__pycache__/
+*.pyc
+
+# Virtuelle Umgebungen
+venv/
+env/
+
+# Datenbanken (Keine Echtdaten hochladen!)
+*.db
+*.sqlite3
+
+# KI-Modelle (Zu groß für GitHub!)
+*.pt
+*.onnx
+runs/
+
+# Bilder und Videos (Datenschutz!)
+violations/
+static/violations/
+*.jpg
+*.mp4
+
+# Betriebssystem-Müll
+.DS_Store
+Thumbs.db
