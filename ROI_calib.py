@@ -8,7 +8,7 @@ def get_pipeline(sid):
             "nvvidconv flip-method=2 ! video/x-raw, width=640, height=480, format=BGRx ! "
             "videoconvert ! video/x-raw, format=BGR ! appsink drop=true max-buffers=1")
 
-# Wähle hier, welche Kamera du kalibrieren willst (0 = Overview, 1 = Enforcement)
+# (0 = Overview, 1 = Enforcement)
 CAMERA_ID = 0 
 
 print(f"Nehme ein Foto von Kamera {CAMERA_ID} auf...")

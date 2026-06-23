@@ -350,7 +350,7 @@ try:
             elif current_phase == 3: 
                 if elapsed > YELLOW_TIME: current_phase = 0; last_switch = now 
 
-        # Convert numeric phase to Strings 
+        
         light_status = {1: "Rot", 2: "Rot", 3: "Rot", 4: "Rot"} 
         if current_phase == 0: 
             light_status[1] = light_status[2] = "Grün" 
@@ -370,8 +370,6 @@ try:
                 light_status = {1: "Gelb", 2: "Gelb", 3: "Gelb", 4: "Gelb"} 
             else: 
                 light_status = {1: "Aus", 2: "Aus", 3: "Aus", 4: "Aus"} 
-
-        # PHYSICALLY UPDATE THE LEDs 
 
         update_physical_lights(ns_state=light_status[1], ew_state=light_status[3]) 
 
