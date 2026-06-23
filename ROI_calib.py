@@ -14,7 +14,7 @@ CAMERA_ID = 0
 print(f"Nehme ein Foto von Kamera {CAMERA_ID} auf...")
 cam = cv2.VideoCapture(get_pipeline(CAMERA_ID), cv2.CAP_GSTREAMER)
 ret, frame = cam.read()
-cam.release() # Kamera direkt wieder schließen, wir brauchen nur 1 Bild
+cam.release()
 
 if not ret:
     print("Fehler: Konnte kein Bild aufnehmen.")
@@ -77,7 +77,6 @@ while True:
         if len(points) < 3:
             print("Ein Polygon braucht mindestens 3 Punkte!")
         else:
-            # Generiere den Code für dein Main-Script
             points_str = ", ".join([f"[{p[0]}, {p[1]}]" for p in points])
             print("\nFERTIG! Kopiere diesen Code in dein Hauptskript:\n")
             print(f"np.array([{points_str}], np.int32)")

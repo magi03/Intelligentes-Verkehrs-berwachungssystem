@@ -7,14 +7,14 @@ folder = "captured_images"
 if not os.path.exists(folder):
     os.makedirs(folder)
 
-# Jetson Nano GStreamer Pipeline (exakt wie in deinem Main-Script)
+# Jetson Nano GStreamer Pipeline 
 def get_pipeline(sid):
     return (f"nvarguscamerasrc sensor-id={sid} ! "
             "video/x-raw(memory:NVMM), width=1280, height=720, format=NV12, framerate=30/1 ! "
             "nvvidconv flip-method=2 ! video/x-raw, width=640, height=480, format=BGRx ! "
             "videoconvert ! video/x-raw, format=BGR ! appsink drop=true max-buffers=1")
 
-print("🔌 Initialisiere Kameras...")
+print(" Initialisiere Kameras...")
 cam0 = cv2.VideoCapture(get_pipeline(0), cv2.CAP_GSTREAMER)
 cam1 = cv2.VideoCapture(get_pipeline(1), cv2.CAP_GSTREAMER)
 
