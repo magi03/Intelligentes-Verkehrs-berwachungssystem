@@ -4,6 +4,7 @@ import json
 import paho.mqtt.client as mqtt
 from flask import Flask, render_template, jsonify, request
 import threading
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -56,6 +57,8 @@ def on_message(client, userdata, message):
         is_cr = 1 if data.get('crash') == "Ja" else 0
         is_vi = 1 if data.get('violation') == "Ja" else 0
         
+        local_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
         conn = get_db_connection()
         c = conn.cursor()
         c.execute("""INSERT INTO Traffic_Logs 
@@ -163,10 +166,22 @@ def upload_violation():
             except:
                 pass
 
+        try:
+            # Holt sich den hinteren Teil "20260623-232146"
+            time_string = filename.split('_')[-1].replace('.jpg', '')
+            # Wandelt es in ein echtes Datum-Objekt um
+            dt = datetime.strptime(time_string, "%Y%m%d-%H%M%S")
+            # Formatiert es für die Datenbank lesbar (YYYY-MM-DD HH:MM:SS)
+            jetson_time = dt.strftime("%Y-%m-%d %H:%M:%S")
+        except Exception:
+            # Fallback, falls der Dateiname mal anders heißt: Lokale Laptop-Zeit nehmen
+            jetson_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
         db_path = f"/static/violations/{filename}"
         conn = get_db_connection()
         c = conn.cursor()
-        c.execute("INSERT INTO Violations (lane_id, image_path) VALUES (?, ?)", (lane_id, db_path))
+        c.execute("INSERT INTO Violations (lane_id, image_path, timestamp) VALUES (?, ?, ?)", 
+                  (lane_id, db_path, jetson_time))
         conn.commit()
         conn.close()
         

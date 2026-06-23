@@ -95,25 +95,34 @@
     </div>
 
     <script>
+        function statusToClass(status) {
+            switch (status) {
+                case "Grün":     return "grün";
+                case "Gelb":     return "gelb";
+                case "Rot+Gelb": return "gelb";
+                default:         return "rot";
+            }
+        }
         function updateDashboard() {
             fetch('/api/data')
                 .then(response => response.json())
                 .then(data => {
-                    // Falls die Datenbank einen Fehler wirft, abbrechen
+                
                     if (data.error) return;
 
-                    // Compute axis sums from lanes
+                    
                     const nsCount = data.lanes.lane_1.count + data.lanes.lane_2.count;
                     const ewCount = data.lanes.lane_3.count + data.lanes.lane_4.count;
 
                     document.getElementById('count-ns').innerText = nsCount;
                     document.getElementById('count-ew').innerText = ewCount;
 
-                    // Match UI components to axis values
-                    document.getElementById('light-ns').className = 'ampel-indicator ' + data.lanes.lane_1.status.toLowerCase();
-                    document.getElementById('light-ew').className = 'ampel-indicator ' + data.lanes.lane_3.status.toLowerCase();
+                    
+                    document.getElementById('light-ns').className = 'ampel-indicator ' + statusToClass(data.lanes.lane_1.status);
+                    document.getElementById('light-ew').className = 'ampel-indicator ' + statusToClass(data.lanes.lane_3.status);
 
-                    // Emergency states
+
+                   
                     if(data.lanes.lane_1.emergency === "Ja" || data.lanes.lane_2.emergency === "Ja") {
                         document.getElementById('emergency-ns').classList.remove('d-none');
                     } else { document.getElementById('emergency-ns').classList.add('d-none'); }
@@ -122,12 +131,12 @@
                         document.getElementById('emergency-ew').classList.remove('d-none');
                     } else { document.getElementById('emergency-ew').classList.add('d-none'); }
 
-                    // Global Crash Status
+                    
                     if(data.lanes.lane_1.crash === "Ja" || data.lanes.lane_2.crash === "Ja" || data.lanes.lane_3.crash === "Ja" || data.lanes.lane_4.crash === "Ja") {
                         document.getElementById('global-crash-alert').classList.remove('d-none');
                     } else { document.getElementById('global-crash-alert').classList.add('d-none'); }
                     
-                    // Blitzer violation hook check
+                    
                     if (data.lanes.lane_1.violation === "Ja" || data.lanes.lane_2.violation === "Ja" || data.lanes.lane_3.violation === "Ja" || data.lanes.lane_4.violation === "Ja") {
                         document.getElementById('violation-flash').classList.remove('d-none');
                         setTimeout(() => document.getElementById('violation-flash').classList.add('d-none'), 2500);
@@ -136,7 +145,7 @@
                 .catch(error => console.error("Verbindungsfehler zur API:", error));
         }
 
-        // Startet den Loop alle 500 Millisekunden
+        
         setInterval(updateDashboard, 500);
     </script>
 </body>
